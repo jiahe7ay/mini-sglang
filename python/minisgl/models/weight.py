@@ -82,11 +82,7 @@ def load_weight(
         with safetensors.safe_open(file, framework="pt", device=load_device) as f:
             for name in f.keys():
                 raw = f.get_tensor(name)
-                tensor = (
-                    _shard_tensor(name, raw, r, n, num_kv_heads=num_kv_heads)
-                    if tp
-                    else raw
-                )
+                tensor = (_shard_tensor(name, raw, r, n, num_kv_heads=num_kv_heads))
                 del raw
 
                 info = _get_merge_info(name)
